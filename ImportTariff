@@ -1,0 +1,71 @@
+/*写着玩*/
+import java.text.DecimalFormat;
+import java.util.Scanner;
+
+//进口关税
+public class ImportTariff {
+	/**
+	 * 完税 税前本价
+	 */
+	private static double wanshui;
+	/**
+	 * 排量
+	 */
+	private static double pailiang;
+	/**
+	 * 消费税税率
+	 */
+	private static double xiaofeishui;
+	/**
+	 * 增值税税率
+	 */
+	private static final double ZENGZHISHUI = 0.17;
+	/**
+	 * 关税税率
+	 */
+	private static final double GUANSHUI = 0.25;
+	public static void main(String[] args) {
+		System.out.println("进口关税查询 请输出进口车完税(原价)");
+		Scanner in = new Scanner(System.in);
+		wanshui = in.nextDouble();
+		System.out.println("输出进口车排量(1.0-4.0 以上)");
+		pailiang = in.nextDouble();
+		if(pailiang >=1.0 && pailiang <= 1.5){
+			xiaofeishui = 0.01;
+		}
+		else if(pailiang >1.5 &&pailiang <= 2){
+			xiaofeishui = 0.03;
+		}
+		else if(pailiang >2.0 &&pailiang <= 2.5){
+			xiaofeishui = 0.05;
+		}
+		else if(pailiang >2.5 && pailiang <= 3){
+			xiaofeishui = 0.09;
+		}
+		else if(pailiang >3 && pailiang <= 4){
+			xiaofeishui = 0.12;
+		}
+		else{
+			xiaofeishui = 0.4;
+		}
+		DecimalFormat df = new DecimalFormat("######0.00"); 
+		double gx = wanshui * GUANSHUI;
+		double xfs = ((gx+wanshui)/(1.0-xiaofeishui))*xiaofeishui;
+		double zzs = (wanshui+gx+xfs)*ZENGZHISHUI;
+		
+		System.out.println("关税"+df.format(gx)+"万");
+		System.out.println("消费税"+df.format(xfs)+"万");
+		System.out.println("增值税"+df.format(zzs)+"万");
+		double addall = gx+xfs+zzs;
+		System.out.println("各项税相加"+df.format(addall)+"万");
+		double zongjia = addall+wanshui;
+		System.out.println("总价"+df.format(zongjia)+"万");
+		System.out.println("总价+厂家利润+保险+杂项(10万)"+df.format(zongjia+10.0)+"万");
+		double zzl = ((zongjia+10.0)/wanshui)*100;
+		System.out.println("增长率"+df.format(zzl)+"%");
+		double ezj = zzl-100.0;
+		System.out.println("额外上交"+df.format(ezj)+"%本价");
+		
+	}
+	
+}
